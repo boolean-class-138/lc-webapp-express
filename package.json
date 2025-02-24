@@ -1,5 +1,15 @@
 {
+  "name": "lc-be-web-app-books",
+  "version": "1.0.0",
+  "main": "app.js",
+  "author": "Samuele",
+  "scripts": {
+    "start": "node --env-file=.env app.js",
+    "watch": "node --env-file=.env --watch app.js"
+  },
   "dependencies": {
-    "express": "^4.21.2"
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "mysql2": "^3.12.0"
   }
 }
