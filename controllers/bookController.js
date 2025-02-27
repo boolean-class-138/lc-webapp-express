@@ -35,10 +35,17 @@ const show = (req, res) => {
   // Recuperiamo l'id dalla rotta
   const { id } = req.params;
 
+  // const bookSql = `
+  //   SELECT *
+  //   FROM books
+  //   WHERE id = ?`;
+
   const bookSql = `
-    SELECT * 
-    FROM books
-    WHERE id = ?`;
+  SELECT books.*, ROUND(AVG(reviews.vote)) as avg_vote
+  FROM books
+  LEFT JOIN reviews ON books.id = reviews.book_id
+  WHERE books.id = ?
+  GROUP BY books.id`;
 
   // lancio la query preparata per leggere il libro con id ?
   connection.execute(bookSql, [id], (err, results) => {
