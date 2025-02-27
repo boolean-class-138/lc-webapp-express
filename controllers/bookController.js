@@ -114,7 +114,31 @@ const storeReview = (req, res) => {
   });
 };
 
+// Store
+const store = (req, res) => {
+  // Recupero il nome dell'immagine caricata
+  const image = req.file.filename;
+
+  // Recuperiamo il body della richiesta
+  const { title, author, abstract } = req.body;
+
+  // Preparare la query di inserimento
+  const sql =
+    "INSERT INTO books (title, author, abstract, image) VALUES (?, ?, ?, ?)";
+  // Eseguire la query
+  connection.execute(sql, [title, author, abstract, image], (err, results) => {
+    if (err) {
+      return res.status(500).json({
+        error: "Query Error",
+        message: `Database query failed: ${sql}`,
+      });
+    }
+    // restituire la risposta al client
+    res.status(201).json({ id: results.insertId });
+  });
+};
+
 // Destroy
 const destroy = (req, res) => {};
 
-module.exports = { index, show, storeReview, destroy };
+module.exports = { index, show, storeReview, store, destroy };
