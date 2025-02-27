@@ -90,7 +90,31 @@ const show = (req, res) => {
   });
 };
 
+// Store Review
+const storeReview = (req, res) => {
+  // Recuperiamo l'id dalla rotta
+  const { id } = req.params;
+
+  // Recuperiamo il body della richiesta
+  const { name, vote, text } = req.body;
+
+  // Preparare la query di inserimento
+  const sql =
+    "INSERT INTO reviews (book_id, name, text, vote) VALUES (?, ?, ?, ?)";
+  // Eseguire la query
+  connection.execute(sql, [id, name, text, vote], (err, results) => {
+    if (err) {
+      return res.status(500).json({
+        error: "Query Error",
+        message: `Database query failed: ${sql}`,
+      });
+    }
+    // restituire la risposta al client
+    res.status(201).json({ id: results.insertId });
+  });
+};
+
 // Destroy
 const destroy = (req, res) => {};
 
-module.exports = { index, show, destroy };
+module.exports = { index, show, storeReview, destroy };

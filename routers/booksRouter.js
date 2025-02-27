@@ -10,6 +10,9 @@ router.get("/", bookController.index);
 // Show
 router.get("/:id", bookController.show);
 
+// Store Review
+router.post("/:id/reviews", bookController.storeReview);
+
 // Destroy
 router.delete("/:id", bookController.destroy);
 
